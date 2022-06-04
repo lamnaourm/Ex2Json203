@@ -1,0 +1,22 @@
+[
+  {
+    "nom": "nom11",
+    "filiere": "TDI",
+    "age": 22
+  },
+  {
+    "nom": "nom22",
+    "filiere": "TRI",
+    "age": 33
+  },
+  {
+    "nom": "nom33",
+    "filiere": "INFO",
+    "age": 22
+  },
+  {
+    "nom": "nom44",
+    "filiere": "TDI",
+    "age": 34
+  }
+]
