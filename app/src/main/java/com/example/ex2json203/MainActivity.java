@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView lst;
+    MyDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new MyDatabase(this);
         lst = findViewById(R.id.lst);
         ArrayList<Stagiaire> st = getAllstags();
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_list_item_1, res);
         lst.setAdapter(ad);
 
+        for(Stagiaire s : st)
+            MyDatabase.insert_stagiaire(db.getWritableDatabase(),s);
 
     }
 
