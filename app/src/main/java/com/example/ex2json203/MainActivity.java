@@ -1,10 +1,10 @@
 package com.example.ex2json203;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,29 +17,23 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView lst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         lst = findViewById(R.id.lst);
-        String json = loadJsonFromRaw(R.raw.stagiaires);
+        ArrayList<Stagiaire> st = getAllstags();
 
-        try {
-            JSONArray arr = new JSONArray(json);
-            ArrayList<String> res = new ArrayList<>();
+        ArrayList<String> res = new ArrayList<>();
+        for(Stagiaire ss : st)
+            res.add(ss.getNom() + " - " + ss.getAge());
 
-            for(int i=0;i<arr.length();i++){
-                JSONObject ob = arr.getJSONObject(i);
+        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_list_item_1, res);
+        lst.setAdapter(ad);
 
-                res.add(ob.getString("nom") + ":" + ob.getString("filiere") + " - " + ob.getInt("age"));
-            }
 
-            ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_list_item_1,res);
-            lst.setAdapter(ad);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public String loadJsonFromRaw(int resId) {
@@ -54,5 +48,26 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public ArrayList<Stagiaire> getAllstags() {
+        ArrayList<Stagiaire> stgs = new ArrayList<>();
+
+        try {
+            String json = loadJsonFromRaw(R.raw.stagiaires);
+            JSONArray arr = new JSONArray(json);
+
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject o = arr.getJSONObject(i);
+                Stagiaire s = new Stagiaire();
+                s.setNom(o.getString("nom"));
+                s.setFiliere(o.getString("filiere"));
+                s.setAge(o.getInt("age"));
+                stgs.add(s);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return stgs;
     }
 }
